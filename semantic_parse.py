@@ -43,11 +43,9 @@ def main():
         parse = parser.nbest_parse(sentence, 1)
         #if a valid parse was found, print it
         if parse:
-            result_file.write(parse[0].node['SEM'].simplify())
-            result_file.write(os.linesep)
-        #else, print a blank line
-        else:
-            result_file.write(os.linesep)
+            result_file.write( str(parse[0].node['SEM'].simplify()) )
+
+        result_file.write(os.linesep)
     
     print("Hello, World!")
 

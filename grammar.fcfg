@@ -1,5 +1,4 @@
 % start S
-
 #####################
 #Grammar Productions#
 #####################
@@ -10,7 +9,7 @@ AUXP[AGR=?a, SEM=<?adv(?aux)>] -> AUX[AGR=?a, SEM=?aux] ADV[SEM=?adv]
 AUXP[SEM=<?a(?v)>] -> AUXP[SEM=?a] VP[SEM=?v]
 
 VP[SEM=?v] -> V[SUBCAT=itv, SEM=?v]
-VP[SEM=?v] -> V[SUBCAT=stv, SEM=?v] NP[SEM=?n]
+VP[SEM=<?v(?n)>] -> V[SUBCAT=stv, SEM=?v] NP[SEM=?n]
 
 VP[SEM=<?v & ?p>] -> VP[SEM=?v] PP[SEM=?p]
 VP[SEM=<\e.?c(?a(e), ?b(e))>] -> VP[SEM=?a] CONJ[SEM=?c] VP[SEM=?b]
@@ -27,8 +26,8 @@ PP[SEM=<?n(?p)>] -> P[SEM=?p] NP[SEM=?n]
 #####################
 CONJ[SEM=<\Q P x.(P(x) | Q(x))>] -> 'or' 
 
-DET[SEM=<\Q P.all x.(Q(x) -> P(x))>] -> 'all'
-Det[AGR=[NUM='sg'], SEM=<\Q P.all x.(Q(x) -> P(x))>] -> 'every'
+DET[SEM=<\Q P.all x.(Q(x) -> P(x))>] -> 'all' | 'every'
+#Det[AGR=[NUM='sg'], SEM=<\Q P.all x.(Q(x) -> P(x))>] -> 'every'
 DET[AGR=[NUM='sg'], SEM=<\Q P.exists x.(Q(x) & P(x))>] -> 'a' | 'an'
 DET[SEM=<\Q P.-exist x.(Q(x) & P(x))>] -> 'no'
 
@@ -41,9 +40,11 @@ NN[SEM=<\x.Sandwich(x)>] -> 'sandwich'
 NN[SEM=<\x.Soda(x)>] -> 'soda'
 NN[AGR=[NUM='sg', PER=3], SEM=<\x.Student(x)>] -> 'student'
 NN[AGR=[NUM='pl', PER=3], SEM=<\x.Student(x)>] -> 'students'
-NN[SEM=<\x.Nobody(x)>] -> 'nobody'
+NN[AGR=[NUM='sg', PER=3], SEM=<\x.Person(x)>] -> 'person'
 
+NNP[AGR=[NUM='sg', PER=3], SEM=<\X.X(Nobody)>] -> 'nobody'
 NNP[AGR=[NUM='sg', PER=3], SEM=<\X.X(John)>] -> 'John'
+NNP[AGR=[NUM='sg', PER=3], SEM=<\X.X(Jack)>] -> 'Jack'
 NNP[AGR=[NUM='sg', PER=3], SEM=<\X.X(Mary)>] -> 'Mary'
 NNP[AGR=[NUM='sg', PER=3], SEM=<\X.X(Seattle)>] -> 'Seattle'
 
