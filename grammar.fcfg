@@ -17,6 +17,7 @@ VP[SEM=<\e.?c(?a(e), ?b(e))>] -> VP[SEM=?a] CONJ[SEM=?c] VP[SEM=?b]
 NP[AGR=?a, SEM=<?det(?n)>] -> DET[AGR=?a, SEM=?det] NN[AGR=?a, SEM=?n]
 NP[AGR=?a, SEM=?n] -> NNP[AGR=?a, SEM=?n]
 NP[SEM=<\e.?c(?a(e), ?b(e))>] -> NP[SEM=?a] CONJ[SEM=?c] NP[SEM=?b]
+NN[SEM=<\e.?c(?a(e), ?b(e))>] -> NN[SEM=?a] CONJ[SEM=?c] NN[SEM=?b]
 
 PP[SEM=<?n(?p)>] -> P[SEM=?p] NP[SEM=?n]
 
