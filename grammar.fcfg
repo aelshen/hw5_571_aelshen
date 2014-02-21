@@ -1,0 +1,87 @@
+% start S
+
+#####################
+#Grammar Productions#
+#####################
+S[AGR=?a, SEM=<?n(?v)>] -> NP[AGR=?a, SEM=?n] VP[AGR=?a,SEM=?v]
+S[SEM=<?n(?aux)>] -> NP[AGR=?a, SEM=?n] AUXP[AGR=?a, SEM=?aux]
+
+AUXP[AGR=?a, SEM=<?adv(?aux)>] -> AUX[AGR=?a, SEM=?aux] ADV[SEM=?adv]
+AUXP[SEM=<?a(?v)>] -> AUXP[SEM=?a] VP[SEM=?v]
+
+VP[SEM=?v] -> V[SUBCAT=itv, SEM=?v]
+VP[SEM=?v] -> V[SUBCAT=stv, SEM=?v] NP[SEM=?n]
+
+VP[SEM=<?v & ?p>] -> VP[SEM=?v] PP[SEM=?p]
+VP[SEM=<\e.?c(?a(e), ?b(e))>] -> VP[SEM=?a] CONJ[SEM=?c] VP[SEM=?b]
+
+NP[AGR=?a, SEM=<?det(?n)>] -> DET[AGR=?a, SEM=?det] NN[AGR=?a, SEM=?n]
+NP[AGR=?a, SEM=?n] -> NNP[AGR=?a, SEM=?n]
+NP[SEM=<\e.?c(?a(e), ?b(e))>] -> NP[SEM=?a] CONJ[SEM=?c] NP[SEM=?b]
+
+PP[SEM=<?n(?p)>] -> P[SEM=?p] NP[SEM=?n]
+
+
+#####################
+#Lexical Productions#
+#####################
+CONJ[SEM=<\Q P x.(P(x) | Q(x))>] -> 'or' 
+
+DET[SEM=<\Q P.all x.(Q(x) -> P(x))>] -> 'all'
+Det[AGR=[NUM='sg'], SEM=<\Q P.all x.(Q(x) -> P(x))>] -> 'every'
+DET[AGR=[NUM='sg'], SEM=<\Q P.exists x.(Q(x) & P(x))>] -> 'a' | 'an'
+DET[SEM=<\Q P.-exist x.(Q(x) & P(x))>] -> 'no'
+
+
+ADV[SEM=<\Q P x.-Q(P,x)>] -> 'not'
+
+NN[SEM=<\x.Bagel(x)>] -> 'bagel'
+NN[SEM=<\x.Essay(x)>] -> 'essay'
+NN[SEM=<\x.Sandwich(x)>] -> 'sandwich'
+NN[SEM=<\x.Soda(x)>] -> 'soda'
+NN[AGR=[NUM='sg', PER=3], SEM=<\x.Student(x)>] -> 'student'
+NN[AGR=[NUM='pl', PER=3], SEM=<\x.Student(x)>] -> 'students'
+NN[SEM=<\x.Nobody(x)>] -> 'nobody'
+
+NNP[AGR=[NUM='sg', PER=3], SEM=<\X.X(John)>] -> 'John'
+NNP[AGR=[NUM='sg', PER=3], SEM=<\X.X(Mary)>] -> 'Mary'
+NNP[AGR=[NUM='sg', PER=3], SEM=<\X.X(Seattle)>] -> 'Seattle'
+
+AUX[+INF, SEM=<\P x.exists e.P(e,x)>] -> 'do' 
+AUX[-INF, SEM=<\P x.exists e.P(e,x)>] -> 'does'
+
+V[SUBCAT=itv, SEM=<\X x.X(eat(x))>] -> 'eat'
+V[SUBCAT=itv, AGR=[NUM='sg', PER=3], SEM=<\X x.X(eat(x))>] -> 'eats'
+
+V[SUBCAT=itv, SEM=<\X x.X(drink(x))>] -> 'drink'
+V[SUBCAT=itv, AGR=[NUM='sg', PER=3], SEM=<\X x.X(drink(x))>] -> 'drinks'
+
+V[SUBCAT=stv, SEM=<\X x.X(\y.drink(x,y))>] -> 'drink'
+V[SUBCAT=stv, AGR=[NUM='sg', PER=3], SEM=<\X x.X(\y.drink(x,y))>] -> 'drinks'
+
+V[SUBCAT=stv, SEM=<\X x.X(\y.eat(x,y))>] -> 'eat'
+V[SUBCAT=stv, AGR=[NUM='sg', PER=3], SEM=<\X x.X(\y.eat(x,y))>] -> 'eats'
+
+V[SUBCAT=stv, SEM=<\X x.X(\y.write(x,y))>] -> 'write'
+V[SUBCAT=stv, AGR=[NUM='sg', PER=3], SEM=<\X x.X(\y.write(x,y))>] -> 'writes'
+
+P[SEM=<\x e.Location(e,x)>] -> 'in'
+
+
+
+
+#V[SUBCAT=itv, SEM=<\e x.(drink(e) & drinker(e,x))>] -> 'drink'
+#V[SUBCAT=itv, AGR=[NUM='sg', PER=3], SEM=<\e x.(drink(e) & drinker(e,x))>] -> 'eats'
+
+#V[SUBCAT=itv, SEM=<\e x.(eat(e) & eater(e,x))>] -> 'eat'
+#V[SUBCAT=itv, AGR=[NUM='sg', PER=3], SEM=<\e x.(eat(e) & eater(e,x))>] -> 'eats'
+
+#V[SUBCAT=stv, SEM=<\y e x.X(\y.( drink(e) & drinker(e,x) & drank(e,y)))>] -> 'drink'
+#V[SUBCAT=stv, AGR=[NUM='sg', PER=3], SEM=<\y e x.y(drink(e) & drinker(e,x) & drank(e,y))>] -> 'drinks'
+
+#V[SUBCAT=stv, SEM=<\y e x.X(\y.( eat(e) & eater(e,x) & eaten(e,y)))>] -> 'eat'
+#V[SUBCAT=stv, AGR=[NUM='sg', PER=3], SEM=<\y e x.y(eat(e) & eater(e,x) & eaten(e,y))>] -> 'eats'
+
+#V[SUBCAT=stv, SEM=<\y e x.X(\y.( write(e) & writer(e,x) & written(e,y)))>] -> 'write'
+#V[SUBCAT=stv, AGR=[NUM='sg', PER=3], SEM=<\y e x.y(write(e) & writer(e,x) & written(e,y))>] -> 'writes'
+P[] -> 'in'
