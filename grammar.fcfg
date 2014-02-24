@@ -60,25 +60,26 @@ NNP[AGR=[NUM='sg', PER=3], SEM=<\X.X(Mary)>] -> 'Mary'
 NNP[AGR=[NUM='sg', PER=3], SEM=<\X.X(Seattle)>] -> 'Seattle'
 
 #Auxiliaries (AUX)
-AUX[+INF, SEM=<\P x.exists e.P(e,x)>] -> 'do' 
-AUX[-INF, SEM=<\P x.exists e.P(e,x)>] -> 'does'
+AUX[+INF, SEM=<\P x.exists e.P(x,e)>] -> 'do' 
+AUX[-INF, SEM=<\P x.exists e.P(x,e)>] -> 'does'
 
 #Verbs (V)
 ##Intransitive Verbs 
-V[SUBCAT=itv, SEM=<\X x.X(eat(x))>] -> 'eat'
-V[SUBCAT=itv, AGR=[NUM='sg', PER=3], SEM=<\X x.X(eat(x))>] -> 'eats'
-V[SUBCAT=itv, SEM=<\X x.X(drink(x))>] -> 'drink'
-V[SUBCAT=itv, AGR=[NUM='sg', PER=3], SEM=<\X x.X(drink(x))>] -> 'drinks'
+V[SUBCAT=itv, SEM=<\x e.(eat(e) & eater(e,x))>] -> 'eat'
+V[SUBCAT=itv, AGR=[NUM='sg', PER=3], SEM=<\x e.(eat(e) & eater(e,x))>] -> 'eats'
+V[SUBCAT=itv, SEM=<\x e.(drink(e) & drinker(e,x))>] -> 'drink'
+V[SUBCAT=itv, AGR=[NUM='sg', PER=3], SEM=<\x e.(drink(e) & drinker(e,x))>] -> 'drinks'
 
 ##Transitive Verbs 
-V[SUBCAT=stv, SEM=<\X x.X(\y.drink(x,y))>] -> 'drink'
-V[SUBCAT=stv, AGR=[NUM='sg', PER=3], SEM=<\X x.X(\y.drink(x,y))>] -> 'drinks'
+#V[SUBCAT=stv, SEM=<\X x.X(\y.drink(x,y))>] -> 'drink'
+V[SUBCAT=stv, SEM=<\Z x e.Z(\y.(drink(e) & drinker(e,x) & drank(e,y)))>] -> 'drink'
+V[SUBCAT=stv, AGR=[NUM='sg', PER=3], SEM=<\Z x e.Z(\y.(drink(e) & drinker(e,x) & drank(e,y)))>] -> 'drinks'
 
-V[SUBCAT=stv, SEM=<\X x.X(\y.eat(x,y))>] -> 'eat'
-V[SUBCAT=stv, AGR=[NUM='sg', PER=3], SEM=<\X x.X(\y.eat(x,y))>] -> 'eats'
+V[SUBCAT=stv, SEM=<\Z x e.Z(\y.(eat(e) & eater(e,x) & eaten(e,y)))>] -> 'eat'
+V[SUBCAT=stv, AGR=[NUM='sg', PER=3], SEM=<\Z x e.Z(\y.(eat(e) & eater(e,x) & eaten(e,y)))>] -> 'eats'
 
-V[SUBCAT=stv, SEM=<\X x.X(\y.write(x,y))>] -> 'write'
-V[SUBCAT=stv, AGR=[NUM='sg', PER=3], SEM=<\X x.X(\y.write(x,y))>] -> 'writes'
+V[SUBCAT=stv, SEM=<\Z x e.Z(\y.(write(e) & writer(e,x) & written(e,y)))>] -> 'write'
+V[SUBCAT=stv, AGR=[NUM='sg', PER=3], SEM=<\Z x e.Z(\y.(write(e) & writer(e,x) & written(e,y)))>] -> 'writes'
 
 
 #Prepositions (P)
@@ -90,7 +91,7 @@ P[SEM=<\x e.Location(e,x)>] -> 'in'
 #failed attempts#
 #################
 #V[SUBCAT=itv, SEM=<\e x.(drink(e) & drinker(e,x))>] -> 'drink'
-#V[SUBCAT=itv, AGR=[NUM='sg', PER=3], SEM=<\e x.(drink(e) & drinker(e,x))>] -> 'eats'
+#V[SUBCAT=itv, AGR=[NUM='sg', PER=3], SEM=<\e x.(drink(e) & drinker(e,x))>] -> 'drinks'
 
 #V[SUBCAT=itv, SEM=<\e x.(eat(e) & eater(e,x))>] -> 'eat'
 #V[SUBCAT=itv, AGR=[NUM='sg', PER=3], SEM=<\e x.(eat(e) & eater(e,x))>] -> 'eats'
