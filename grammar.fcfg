@@ -5,36 +5,43 @@
 S[AGR=?a, SEM=<?n(?v)>] -> NP[AGR=?a, SEM=?n] VP[AGR=?a,SEM=?v]
 S[SEM=<?n(?aux)>] -> NP[AGR=?a, SEM=?n] AUXP[AGR=?a, SEM=?aux]
 
+#Auxiliary Phrases
 AUXP[AGR=?a, SEM=<?adv(?aux)>] -> AUX[AGR=?a, SEM=?aux] ADV[SEM=?adv]
 AUXP[SEM=<?a(?v)>] -> AUXP[SEM=?a] VP[SEM=?v]
 
+#Verb Phrases
 VP[SEM=?v] -> V[SUBCAT=itv, SEM=?v]
 VP[SEM=<?v(?n)>] -> V[SUBCAT=stv, SEM=?v] NP[SEM=?n]
-
 VP[SEM=<?v & ?p>] -> VP[SEM=?v] PP[SEM=?p]
 VP[SEM=<\e.?c(?a(e), ?b(e))>] -> VP[SEM=?a] CONJ[SEM=?c] VP[SEM=?b]
 
+#Noun Phrases
 NP[AGR=?a, SEM=<?det(?n)>] -> DET[AGR=?a, SEM=?det] NN[AGR=?a, SEM=?n]
 NP[AGR=?a, SEM=?n] -> NNP[AGR=?a, SEM=?n]
 NP[SEM=<\e.?c(?a(e), ?b(e))>] -> NP[SEM=?a] CONJ[SEM=?c] NP[SEM=?b]
 NN[SEM=<\e.?c(?a(e), ?b(e))>] -> NN[SEM=?a] CONJ[SEM=?c] NN[SEM=?b]
 
+#Preposition Phrases
 PP[SEM=<?n(?p)>] -> P[SEM=?p] NP[SEM=?n]
 
 
 #####################
 #Lexical Productions#
 #####################
+#Conjunctions (CONJ)
+##used to include the disjunction "or"
 CONJ[SEM=<\Q P x.(P(x) | Q(x))>] -> 'or' 
 
+#Determiners (DET)
 DET[SEM=<\Q P.all x.(Q(x) -> P(x))>] -> 'all' | 'every'
-#Det[AGR=[NUM='sg'], SEM=<\Q P.all x.(Q(x) -> P(x))>] -> 'every'
+#DET[AGR=[NUM='sg'], SEM=<\Q P.all x.(Q(x) -> P(x))>] -> 'every'
 DET[AGR=[NUM='sg'], SEM=<\Q P.exists x.(Q(x) & P(x))>] -> 'a' | 'an'
 DET[SEM=<\Q P.-exist x.(Q(x) & P(x))>] -> 'no'
 
-
+#Adverb (ADV)
 ADV[SEM=<\Q P x.-Q(P,x)>] -> 'not'
 
+#Common Nouns (NN)
 NN[SEM=<\x.Bagel(x)>] -> 'bagel'
 NN[SEM=<\x.Essay(x)>] -> 'essay'
 NN[SEM=<\x.Sandwich(x)>] -> 'sandwich'
@@ -43,21 +50,27 @@ NN[AGR=[NUM='sg', PER=3], SEM=<\x.Student(x)>] -> 'student'
 NN[AGR=[NUM='pl', PER=3], SEM=<\x.Student(x)>] -> 'students'
 NN[AGR=[NUM='sg', PER=3], SEM=<\x.Person(x)>] -> 'person'
 
+#Proper Nouns (NNP)
+##"nobody" is included in this category out of convenience,
+##even though it is a pronoun.
 NNP[AGR=[NUM='sg', PER=3], SEM=<\X.X(Nobody)>] -> 'nobody'
 NNP[AGR=[NUM='sg', PER=3], SEM=<\X.X(John)>] -> 'John'
 NNP[AGR=[NUM='sg', PER=3], SEM=<\X.X(Jack)>] -> 'Jack'
 NNP[AGR=[NUM='sg', PER=3], SEM=<\X.X(Mary)>] -> 'Mary'
 NNP[AGR=[NUM='sg', PER=3], SEM=<\X.X(Seattle)>] -> 'Seattle'
 
+#Auxiliaries (AUX)
 AUX[+INF, SEM=<\P x.exists e.P(e,x)>] -> 'do' 
 AUX[-INF, SEM=<\P x.exists e.P(e,x)>] -> 'does'
 
+#Verbs (V)
+##Intransitive Verbs 
 V[SUBCAT=itv, SEM=<\X x.X(eat(x))>] -> 'eat'
 V[SUBCAT=itv, AGR=[NUM='sg', PER=3], SEM=<\X x.X(eat(x))>] -> 'eats'
-
 V[SUBCAT=itv, SEM=<\X x.X(drink(x))>] -> 'drink'
 V[SUBCAT=itv, AGR=[NUM='sg', PER=3], SEM=<\X x.X(drink(x))>] -> 'drinks'
 
+##Transitive Verbs 
 V[SUBCAT=stv, SEM=<\X x.X(\y.drink(x,y))>] -> 'drink'
 V[SUBCAT=stv, AGR=[NUM='sg', PER=3], SEM=<\X x.X(\y.drink(x,y))>] -> 'drinks'
 
@@ -67,11 +80,15 @@ V[SUBCAT=stv, AGR=[NUM='sg', PER=3], SEM=<\X x.X(\y.eat(x,y))>] -> 'eats'
 V[SUBCAT=stv, SEM=<\X x.X(\y.write(x,y))>] -> 'write'
 V[SUBCAT=stv, AGR=[NUM='sg', PER=3], SEM=<\X x.X(\y.write(x,y))>] -> 'writes'
 
+
+#Prepositions (P)
 P[SEM=<\x e.Location(e,x)>] -> 'in'
 
 
 
-
+#################
+#failed attempts#
+#################
 #V[SUBCAT=itv, SEM=<\e x.(drink(e) & drinker(e,x))>] -> 'drink'
 #V[SUBCAT=itv, AGR=[NUM='sg', PER=3], SEM=<\e x.(drink(e) & drinker(e,x))>] -> 'eats'
 
@@ -86,4 +103,3 @@ P[SEM=<\x e.Location(e,x)>] -> 'in'
 
 #V[SUBCAT=stv, SEM=<\y e x.X(\y.( write(e) & writer(e,x) & written(e,y)))>] -> 'write'
 #V[SUBCAT=stv, AGR=[NUM='sg', PER=3], SEM=<\y e x.y(write(e) & writer(e,x) & written(e,y))>] -> 'writes'
-P[] -> 'in'

@@ -42,13 +42,11 @@ def main():
         sentence = sentence.strip().split()
         parse = parser.nbest_parse(sentence, 1)
         #if a valid parse was found, print it
+        #simplifying the nodes to only show relevant SEM properties
         if parse:
             result_file.write( str(parse[0].node['SEM'].simplify()) )
 
         result_file.write(os.linesep)
-    
-    print("Hello, World!")
-
 #==============================================================================    
 #------------------------------------------------------------------------------
 #==============================================================================
